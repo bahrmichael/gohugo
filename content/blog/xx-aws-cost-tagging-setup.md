@@ -30,7 +30,7 @@ _picture of how it will look like_
 
 # Cost Explorer Does Not Collect Tags By Default
 
- - add warning market
+ - add warning market, DO NOT SKIP THIS STEP
 In good AWS fashion it is not activated by default. You have to manually go into the cost explorer and activate tag tracking, wait a day or two and then you will be able to drill down by tags.
 
 _picture slide of how to activate it_

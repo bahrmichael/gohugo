@@ -1,9 +1,9 @@
 baseURL = "https://example.com/"
 languageCode = "en-us"
-title = "Mediumish"
+title = "bahr.dev"
 theme = "mediumish-gohugo-theme"
 summaryLength = 25
-copyright = "John Doe - All rights reserved"
+copyright = "Michael Bahr - All rights reserved"
 enableEmoji = true
 publishDir = "docs"
 #disqusShortname = "your-shortname-here"
@@ -11,17 +11,17 @@ publishDir = "docs"
 
 [params]
   logo = "/images/logo.png"
-  description ="the clean blog!"
-  #mailchimp = "you can provide a mailchimp-link here"
+  description ="Exploring Tech-Minimalism"
+  mailchimp = "you can provide a mailchimp-link here"
 
 [params.author]
-  name = "John Doe"
+  name = "Michael Bahr"
   thumbnail = "/images/author.png"
-  description = "Creator of this blog."
+  description = "Serverless Enthusiast"
 
 [params.index]
   picture = "/images/author.png"
-  title = "John Doe"
+  title = "Michael Bahr"
   subtitle = "I'm a unique placeholder. Working here and there!"
   mdtext = '''
 Currently trying to get this blog running, still don't know what the blog will be about!\
@@ -31,12 +31,12 @@ Currently trying to get this blog running, still don't know what the blog will b
   alertbar = false
 
 [params.social]
-  github = "<username>"
+  github = "bahrmichael"
   linkedin = "<username>"
-  xing = "<username>"
-  medium = "<username>"
-  twitter = "<username>"
-  instagram = "<username>"
+  ## xing = "<username>"
+  medium = "michabahr"
+  twitter = "michabahr"
+  ## instagram = "<username>"
 
 ## Main Menu
 [[menu.main]]

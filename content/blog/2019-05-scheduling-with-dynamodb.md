@@ -38,19 +38,19 @@ You can change the order of the steps, but should keep in mind that the executor
 
 Start by creating a new DynamoDB table.
 
-{{< figure src="/images/blog/2018-06/1.png" >}}
+{{< figure src="/images/blog/2019-05/1.png" >}}
 
 If you expect to exceed the [free-tier](https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=categories%23alwaysfree&awsf.Free%20Tier%20Categories=productcategories%23database), we recommend switching to on-demand. Please not that exceeding a provisioned capacity may lead to DB operations being rejected, while on-demand is not limited.
 
-{{< figure src="/images/blog/2018-06/2.png" >}}
+{{< figure src="/images/blog/2019-05/2.png" >}}
 
 This will open a dialog where you specify the TTL attribute and activate DynamoDB Streams. We will use the attribute name “ttl”, but you may choose whatever name you like that is not [reserved by DynamoDB](https://docs.aws.amazon.com/de_de/amazondynamodb/latest/developerguide/ReservedWords.html). Click on Continue to create enable the TTL.
 
-{{< figure src="/images/blog/2018-06/3.png" >}}
+{{< figure src="/images/blog/2019-05/3.png" >}}
 
 Once DynamoDB has created the TTL and stream, you will see the stream details on the table overview. We will later need the “Latest stream ARN” to hook it up to our executor function.
 
-{{< figure src="/images/blog/2018-06/4.png" >}}
+{{< figure src="/images/blog/2019-05/4.png" >}}
 
 # Executor
 
@@ -63,7 +63,7 @@ A few things to keep in mind here:
 2. Line 7–10: You will receive events that are unrelated to the TTL deletion. E.g. when an event is inserted into the table, the event_name will be INSERT.
 3. Line 13: The [record’s structure](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_Record.html) differs from the entry we wrote to the DynamoDB table. You need to access Records, then dynamodb and finally OldImage to get the database entry as it was before deletion. Note that the payload follows DynamoDB’s [AttributeValue](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_AttributeValue.html) schema shown below:
 
-{{< figure src="/images/blog/2018-06/5.png" >}}
+{{< figure src="/images/blog/2019-05/5.png" >}}
 
 # Scheduler
 
@@ -91,33 +91,33 @@ Lines 17 to 21 set up the _executor_. Through events we specify that the executo
 
 Once you adjusted the serverless.yml to your needs, deploy it by running serverless deploy from the folder where the serverless.yml and functions are located. This may take a few minutes to complete.
 
-{{< figure src="/images/blog/2018-06/6.png" >}}
+{{< figure src="/images/blog/2019-05/6.png" >}}
 
 # Test
 
 Once serverless completes the deployment, head over to the [lambda management console](https://console.aws.amazon.com/lambda/home?region=us-east-1#/applications/lambda-scheduler-dev) and click on ScheduleLambdaFunction.
 
-{{< figure src="/images/blog/2018-06/7.png" >}}
+{{< figure src="/images/blog/2019-05/7.png" >}}
 
 In the top right corner you can then configure a test event.
 
-{{< figure src="/images/blog/2018-06/8.png" >}}
+{{< figure src="/images/blog/2019-05/8.png" >}}
 
 As we don’t evaluate the input of the scheduler function the default Hello World event is sufficient.
 
-{{< figure src="/images/blog/2018-06/9.png" >}}
+{{< figure src="/images/blog/2019-05/9.png" >}}
 
 Create the test event and then execute it by clicking on Test.
 
-{{< figure src="/images/blog/2018-06/10.png" >}}
+{{< figure src="/images/blog/2019-05/10.png" >}}
 
 Now head over to the [DynamoDB management console](https://console.aws.amazon.com/dynamodb/home#tables:) and open the items of your table. When you hover over the TTL attribute you will see an overlay which tells you when the entry is supposed to be deleted (remember that the deletion may be delayed).
 
-{{< figure src="/images/blog/2018-06/11.png" >}}
+{{< figure src="/images/blog/2019-05/11.png" >}}
 
 Now we have to wait until DynamoDB deletes the entry. As DynamoDB will probably take a few minutes we are in no rush here. Switch back to the console where you deployed the serverless application and run the command _serverless logs -f executor -t_ to listen for new logs of the executor function. Get yourself a drink and a snack as this will probably take 10 to 15 minutes for a small table. If you created 10.000.000.000 entries, then you might have to wait longer.
 
-{{< figure src="/images/blog/2018-06/12.png" >}}
+{{< figure src="/images/blog/2019-05/12.png" >}}
 
 That’s it! We invoked a single lambda execution without the use of rate or cron.
 
